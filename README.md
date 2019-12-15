@@ -1,1 +1,1 @@
-JavaWork
+# Pratice code with leetcode.
