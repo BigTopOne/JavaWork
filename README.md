@@ -1,2 +1,2 @@
-# Java Advanced;
+# Java Advanced
 * 1: Pratice code with leetcode.
