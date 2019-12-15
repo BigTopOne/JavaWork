@@ -14,7 +14,6 @@ public class Solution {
         HashMap<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < arrLength; i++) {
             int temp = nums[i];
-            Object key;
             final Integer value = map.get(temp);
             if (value != null) {
                 return new int[]{value, i};
