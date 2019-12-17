@@ -9,6 +9,7 @@ public class Solution {
         int length = nums.length;
         if (length == 0) {
             return new int[0];
+
         }
         int arrLength = nums.length;
         HashMap<Integer, Integer> map = new HashMap<>();
