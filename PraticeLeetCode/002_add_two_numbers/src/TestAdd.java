@@ -26,4 +26,23 @@ public class TestAdd {
         secondNode.next = thirdNode;
         return firstNode;
     }
+
+
+    @Test
+    public void tt() {
+        double result = (22000 + 800 + 150 + 700 + 2295.65  );
+        System.out.println("result     : " + result);
+
+        double partOne = 289.04 + 114.14 + 400;
+        System.out.println("partOne    : " + partOne);
+
+        double partTwo = 2374.25;
+
+        double end = result-partOne-partTwo;
+        System.out.println("end        : " + end);
+
+        System.out.println("1<<1 :"+(1<<1));
+
+
+    }
 }
