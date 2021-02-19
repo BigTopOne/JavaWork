@@ -1,4 +1,0 @@
-package thread_local;
-
-public class ThreadLocalDemo {
-}
