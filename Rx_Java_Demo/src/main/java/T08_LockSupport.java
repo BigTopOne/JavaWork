@@ -1,6 +1,6 @@
 import java.util.concurrent.locks.LockSupport;
 
-public class Print {
+public class T08_LockSupport {
     static CharacterThread characterThread;
     static NumberThread numberThread;
     static String[] cStr = {"A", "B", "C", "D", "E",

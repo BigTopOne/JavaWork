@@ -1,41 +1,47 @@
 package com.jar;
 
+import com.sun.jdi.connect.IllegalConnectorArgumentsException;
 import javassist.*;
+import javassist.util.HotSwapper;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class GenerateClazzMethod {
+public class GenerateClazzMethod2 {
     public static void main(String[] args) {
-        HelloWorld.main(null);
-        ClassPool pool = ClassPool.getDefault();
+        ApiTest apiTest = new ApiTest();
+        System.out.println(" 你到底有几个前女友?");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (; ; ) {
+                    try {
+                        System.out.println(apiTest.queryGirlFriendCount("谢飞机"));
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
 
         try {
-            // 创建类 classname：创建类路径和名称
-            CtClass ctClass = pool.makeClass("com.jar.HelloWorld");
-            CtMethod mainMethod = new CtMethod(CtClass.shortType, "main", new CtClass[]{pool.get(String[].class.getName())}, ctClass);
+            HotSwapper hs = new HotSwapper(8000);
+            ClassPool pool = ClassPool.getDefault();
+            CtClass ctClass = pool.get(ApiTest.class.getName());
+            // 获取方法
+            CtMethod ctMethod = ctClass.getDeclaredMethod("queryGirlFriendCount");
 
-            mainMethod.setModifiers(Modifier.PUBLIC + Modifier.STATIC);
+            ctMethod.setBody("{ return $1 +\"的前女友数量：\"+(0L)+\"个\";}");
+            //ctMethod.setBody("{ return $1 + \"的前女友数量:\" + (0L) + \" 个\";}");
 
-            mainMethod.setBody("{System.out.println(\"......我是新的，，，，\");}");
-            ctClass.addMethod(mainMethod);
-
-
-            CtConstructor ctConstructor = new CtConstructor(new CtClass[]{}, ctClass);
-            ctConstructor.setBody("{}");
-            ctClass.addConstructor(ctConstructor);
-            ctClass.writeFile();
-            Class clazz = ctClass.toClass();
-            Object obj = clazz.newInstance();
-            Method main = clazz.getDeclaredMethod("main", String[].class);
-            main.invoke(obj, (Object) new String[1]);
-
-
-        } catch (CannotCompileException | IOException | NotFoundException | IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
+            // 加载新的类
+            System.out.println(":: 执行 HotSwapper 热插拔，修改谢飞机前女友数量为 0 个！");
+            hs.reload(ApiTest.class.getName(), ctClass.toBytecode());
+        } catch (IOException | IllegalConnectorArgumentsException | NotFoundException | CannotCompileException e) {
             e.printStackTrace();
         }
-
 
     }
 }
